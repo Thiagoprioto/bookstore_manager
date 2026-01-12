@@ -1,25 +1,30 @@
 package com.thiagoprioto.bookstoremenager.service;
 
-import com.thiagoprioto.bookstoremenager.dto.MessegeResponseDTO;
+import com.thiagoprioto.bookstoremenager.dto.BookDTO;
+import com.thiagoprioto.bookstoremenager.dto.MessageResponseDTO;
 import com.thiagoprioto.bookstoremenager.entity.Book;
+import com.thiagoprioto.bookstoremenager.mapper.BookMapper;
 import com.thiagoprioto.bookstoremenager.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class BookService {
 
     private BookRepository bookRepository;
 
+    private final BookMapper bookMapper = BookMapper.INSTANCE;
+
     @Autowired
     public BookService(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
 
-    public MessegeResponseDTO create(Book book){
-        Book savedBook = bookRepository.save(book);
-        return MessegeResponseDTO.builder()
+    public MessageResponseDTO create(BookDTO bookDTO){
+        Book bookToSave = bookMapper.toModel(bookDTO);
+
+        Book savedBook = bookRepository.save(bookToSave);
+        return MessageResponseDTO.builder()
                 .message("Book created with ID " + savedBook.getId()).build();
     }
 }

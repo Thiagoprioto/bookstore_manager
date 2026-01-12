@@ -1,8 +1,9 @@
 package com.thiagoprioto.bookstoremenager.controller;
 
-import com.thiagoprioto.bookstoremenager.dto.MessegeResponseDTO;
-import com.thiagoprioto.bookstoremenager.entity.Book;
+import com.thiagoprioto.bookstoremenager.dto.BookDTO;
+import com.thiagoprioto.bookstoremenager.dto.MessageResponseDTO;
 import com.thiagoprioto.bookstoremenager.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class BookController {
     }
 
     @PostMapping
-    public MessegeResponseDTO create(@RequestBody Book book){
-       return bookService.create(book);
+    public MessageResponseDTO create(@RequestBody @Valid BookDTO bookDTO){
+       return bookService.create(bookDTO);
     }
 }
