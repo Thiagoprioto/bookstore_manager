@@ -8,7 +8,7 @@ A aplicação permite o **registo e consulta de livros**, bem como o gerenciamen
 ## 🚀 Tecnologias e Ferramentas
 
 - **Java 21**
-- **Spring Boot 4.0.1**
+- **Spring Boot 3.4.1**
 - **Spring Web**
 - **Spring Data JPA**
 - **H2 Database** (em memória)
