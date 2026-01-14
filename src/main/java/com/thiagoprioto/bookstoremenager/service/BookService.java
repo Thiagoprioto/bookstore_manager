@@ -3,6 +3,7 @@ package com.thiagoprioto.bookstoremenager.service;
 import com.thiagoprioto.bookstoremenager.dto.BookDTO;
 import com.thiagoprioto.bookstoremenager.dto.MessageResponseDTO;
 import com.thiagoprioto.bookstoremenager.entity.Book;
+import com.thiagoprioto.bookstoremenager.exception.BookNotFoundException;
 import com.thiagoprioto.bookstoremenager.mapper.BookMapper;
 import com.thiagoprioto.bookstoremenager.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,9 @@ public class BookService {
                 .message("Book created with ID " + savedBook.getId()).build();
     }
 
-    public BookDTO findById(Long id) {
-        Optional<Book> optionalBook = bookRepository.findById(id);
-        return bookMapper.toDTO(optionalBook.get());
+    public BookDTO findById(Long id) throws BookNotFoundException {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+        return bookMapper.toDTO(book);
     }
 }
