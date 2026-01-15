@@ -1,19 +1,23 @@
 package com.thiagoprioto.bookstoremenager.service;
 
 import com.thiagoprioto.bookstoremenager.dto.BookDTO;
+import com.thiagoprioto.bookstoremenager.dto.MessageResponseDTO;
 import com.thiagoprioto.bookstoremenager.entity.Book;
 import com.thiagoprioto.bookstoremenager.exception.BookNotFoundException;
+import com.thiagoprioto.bookstoremenager.mapper.BookMapper;
 import com.thiagoprioto.bookstoremenager.repository.BookRepository;
 import com.thiagoprioto.bookstoremenager.utils.BookUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.Mapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.thiagoprioto.bookstoremenager.utils.BookUtils.*;
@@ -51,5 +55,26 @@ public class BookServiceTest {
                 .thenReturn(Optional.ofNullable(any(Book.class)));
 
         assertThrows(BookNotFoundException.class, () -> bookService.findById(invalidId));
+    }
+
+    @Test
+    void whenBookIsUpdatedThenReturnUpdatedBook() throws BookNotFoundException {
+        Book expectedFoundBook = createFakeBook();
+
+        BookDTO bookDTO = createFakeBookDTO();
+        bookDTO.setId(expectedFoundBook.getId());
+        bookDTO.setName("Updated book");
+
+        Book expectedUpdatedBook = BookMapper.INSTANCE.toModel(bookDTO);
+
+        when(bookRepository.findById(expectedFoundBook.getId()))
+                .thenReturn(Optional.of(expectedFoundBook));
+
+        when(bookRepository.save(any(Book.class)))
+                .thenReturn(expectedUpdatedBook);
+        MessageResponseDTO response = bookService
+                .updateById(expectedFoundBook.getId(), bookDTO);
+
+        assertEquals("Book has been updated!" + expectedFoundBook.getId(), response.getMessage());
     }
 }

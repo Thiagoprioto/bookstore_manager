@@ -9,8 +9,6 @@ import com.thiagoprioto.bookstoremenager.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class BookService {
 
@@ -35,5 +33,17 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
         return bookMapper.toDTO(book);
+    }
+
+    public MessageResponseDTO updateById(Long id, BookDTO bookDTO) throws BookNotFoundException {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+
+        bookDTO.setId(id);
+
+        Book bookToUpdate = bookMapper.toModel(bookDTO);
+        Book bookToSave = bookRepository.save(bookToUpdate);
+
+        return MessageResponseDTO.builder().message("Book has been updated!" + bookToUpdate.getId()).build();
     }
 }

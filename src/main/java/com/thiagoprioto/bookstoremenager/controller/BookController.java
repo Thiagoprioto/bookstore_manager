@@ -27,4 +27,9 @@ public class BookController {
     public BookDTO findById(@PathVariable Long id) throws BookNotFoundException {
         return bookService.findById(id);
     }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody BookDTO bookDTO) throws BookNotFoundException {
+        return bookService.updateById(id, bookDTO);
+    }
 }
