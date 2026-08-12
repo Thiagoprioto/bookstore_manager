@@ -3,6 +3,8 @@
 Este projeto é uma **API REST** para o gerenciamento de uma livraria, desenvolvida em **Java 21** com o framework **Spring Boot 4.0.1**.  
 A aplicação permite o **registo, atualizar e consulta de livros**, bem como o gerenciamento dos seus respetivos **autores**, utilizando uma arquitetura moderna, mapeamento de dados eficiente e um sistema de tratamento de erros especializado.
 
+🌐 **API em Produção / Documentação Live:**  
+👉 [https://bookstore-manager-be2d.onrender.com/swagger-ui/index.html](https://bookstore-manager-be2d.onrender.com/swagger-ui/index.html)
 ---
 
 ## 🚀 Tecnologias e Ferramentas
